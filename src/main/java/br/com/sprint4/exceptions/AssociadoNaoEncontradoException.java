@@ -13,7 +13,6 @@ public class AssociadoNaoEncontradoException extends RuntimeException{
     private static final long serialVersionUID = 1L;
 
     private final String details;
-
     private final ErroCode erroCode;
     private final HttpStatus httpStatus;
 

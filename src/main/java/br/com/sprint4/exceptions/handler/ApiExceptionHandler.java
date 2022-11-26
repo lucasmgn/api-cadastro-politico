@@ -1,9 +1,10 @@
 package br.com.sprint4.exceptions.handler;
 
+import br.com.sprint4.constantes.ErroCode;
 import br.com.sprint4.exceptions.AssociadoNaoEncontradoException;
+import br.com.sprint4.exceptions.EntidadeEmUsoException;
 import br.com.sprint4.exceptions.PartidoNaoEncontradoException;
 import br.com.sprint4.exceptions.Problem;
-import br.com.sprint4.constantes.ErroCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +72,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleAssociadoNaoEncontradoException(AssociadoNaoEncontradoException ex) {
         Problem exceptionResponse = new Problem(ErroCode.PARTIDO_NAO_ENCONTRADO, ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(EntidadeEmUsoException.class)
+    public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException e, WebRequest request){
+
+        HttpStatus status = HttpStatus.CONFLICT;
+        ErroCode tipoProblema = ErroCode.ENTIDADE_EM_USO;
+        String detail = e.getMessage();
+
+        Problem problem = new Problem(tipoProblema,detail);
+
+        return handleExceptionInternal(e, problem, new HttpHeaders(),status, request);
     }
 
     @ExceptionHandler(Exception.class)

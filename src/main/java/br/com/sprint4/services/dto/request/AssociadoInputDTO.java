@@ -1,12 +1,13 @@
 package br.com.sprint4.services.dto.request;
 
 import br.com.sprint4.enums.Ideologia;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -22,5 +23,6 @@ public class AssociadoInputDTO {
     private Ideologia ideologia;
 
     @NotNull
-    private OffsetDateTime fundacao;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate nascimento;
 }

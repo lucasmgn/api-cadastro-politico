@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -25,20 +25,20 @@ public class Associado {
     @Column(name = "NOME")
     private String nome;
 
-//    @NotNull
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "CARGO")
     private Cargo cargo;
 
-//    @NotNull
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "SEXO")
     private Sexo sexo;
 
-//    @NotNull
+    @NotNull
     @Column(name = "NASCIMENTO")
-    private OffsetDateTime nascimento;
+    private LocalDate nascimento;
 
-//    @OneToOne //estava gerando erro no flyway
-//    private Partido partido;
+    @ManyToOne
+    private Partido partido_id;
 }

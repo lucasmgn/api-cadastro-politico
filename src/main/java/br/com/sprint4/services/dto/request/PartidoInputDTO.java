@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -18,9 +18,9 @@ public class PartidoInputDTO {
     @NotBlank
     private String sigla;
 
-    @NotBlank
+    @NotNull
     private Ideologia ideologia;
 
     @NotNull
-    private OffsetDateTime fundacao;
+    private LocalDate fundacao;
 }

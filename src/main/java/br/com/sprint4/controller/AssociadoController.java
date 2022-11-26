@@ -6,9 +6,8 @@ import br.com.sprint4.services.AssociadoService;
 import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
 import br.com.sprint4.services.assembler.AssociadoInputDisassembler;
 import br.com.sprint4.services.dto.request.AssociadoInputDTO;
-import br.com.sprint4.services.dto.responses.AssociadoResponseDTO;
+import br.com.sprint4.services.dto.responses.AssociadoRespostaDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +28,14 @@ public class AssociadoController {
     private final AssociadoRepository repository;
 
     @GetMapping(value = "/associados")
-    public List<AssociadoResponseDTO> listar(){
+    public List<AssociadoRespostaDTO> listar(){
         List<Associado> todosAssociados = repository.findAll();
 
         return assembler.toCollectionModel(todosAssociados);
     }
 
     @GetMapping(value = "/associados/{associadoId}")
-    public AssociadoResponseDTO buscar(@PathVariable Long associadoId){
+    public AssociadoRespostaDTO buscar(@PathVariable Long associadoId){
 
         Associado associado = service.buscaOuFalha(associadoId);
 
@@ -45,7 +44,7 @@ public class AssociadoController {
 
     @PostMapping(value = "/associados")
     @ResponseStatus(HttpStatus.CREATED)
-    public AssociadoResponseDTO adicionar(@RequestBody @Valid AssociadoInputDTO associadoInputDTO) {
+    public AssociadoRespostaDTO adicionar(@RequestBody @Valid AssociadoInputDTO associadoInputDTO) {
         Associado associado = disassembler.toDomainObject(associadoInputDTO);
 
         associado = service.adicionar(associado);
@@ -54,8 +53,8 @@ public class AssociadoController {
     }
 
     @PutMapping(value = "/associados/{associadoId}")
-    public AssociadoResponseDTO atualizar(@PathVariable Long associadoId,
-                                        @RequestBody @Valid AssociadoInputDTO associadoInputDTO){
+    public AssociadoRespostaDTO atualizar(@PathVariable Long associadoId,
+                                          @RequestBody @Valid AssociadoInputDTO associadoInputDTO){
 
         Associado associadoAtual = service.buscaOuFalha(associadoId);
 

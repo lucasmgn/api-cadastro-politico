@@ -7,7 +7,8 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -28,18 +29,15 @@ public class Partido {
     @Column(name = "SIGLA")
     private String sigla;
 
-//    @NotNull
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "IDEOLOGIA")
     private Ideologia ideologia;
 
-//    O campo deve ser salvo no banco seguindo o formato da ISO 8601.
-//    Mas na hora de serializar e enviar no response a data têm que estar no
-//    formato brasileiro de datas
     @NotNull
     @Column(name = "FUNDACAO")
-    private OffsetDateTime fundacao;
+    private LocalDate fundacao;
 
-//    @OneToMany(mappedBy = "PARTIDO")
-//    private List<Associado> associados;
+    @OneToMany(mappedBy = "partido_id")
+    private List<Associado> associados;
 }

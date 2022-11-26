@@ -3,12 +3,13 @@ package br.com.sprint4.services.dto.responses;
 import br.com.sprint4.entites.Partido;
 import br.com.sprint4.enums.Cargo;
 import br.com.sprint4.enums.Sexo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Data
-public class AssociadoResponseDTO {
+public class AssociadoRespostaDTO {
 
     private Long id;
 
@@ -18,7 +19,8 @@ public class AssociadoResponseDTO {
 
     private Sexo sexo;
 
-    private OffsetDateTime nascimento;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate nascimento;
 
     private Partido partido;
 }
