@@ -1,6 +1,9 @@
 package br.com.sprint4.services.dto.request;
 
+import br.com.sprint4.enums.Cargo;
 import br.com.sprint4.enums.Ideologia;
+import br.com.sprint4.enums.Sexo;
+import br.com.sprint4.services.dto.responses.PartidoRespostaDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,13 +19,12 @@ public class AssociadoInputDTO {
     @NotBlank
     private String nome;
 
-    @NotBlank
-    private String sigla;
+    @NotNull
+    private Cargo cargo;
 
     @NotNull
-    private Ideologia ideologia;
+    private Sexo sexo;
 
-    @NotNull
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate nascimento;
 }

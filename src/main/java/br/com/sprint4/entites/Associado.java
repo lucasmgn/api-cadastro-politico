@@ -40,5 +40,5 @@ public class Associado {
     private LocalDate nascimento;
 
     @ManyToOne
-    private Partido partido_id;
+    private Partido partido;
 }

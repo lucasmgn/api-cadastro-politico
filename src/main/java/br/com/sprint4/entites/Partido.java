@@ -38,6 +38,6 @@ public class Partido {
     @Column(name = "FUNDACAO")
     private LocalDate fundacao;
 
-    @OneToMany(mappedBy = "partido_id")
+    @OneToMany(mappedBy = "partido")
     private List<Associado> associados;
 }
