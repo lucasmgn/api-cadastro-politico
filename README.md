@@ -30,7 +30,7 @@
 
 <h3>Controller AssociadoController</h3>
 
-![Captura de Tela (153)](https://user-images.githubusercontent.com/81782608/204155192-ab297d89-d234-4109-9d28-976cd04787e2.png)
+![Captura de Tela (154)](https://user-images.githubusercontent.com/81782608/204155276-de35d4ee-866b-45df-a139-e756287ce3f2.png)
 
 <h3>A aplicação utiliza o banco de dados Mysql e faz versionamento com a utilização do Flyway</h3>
 
