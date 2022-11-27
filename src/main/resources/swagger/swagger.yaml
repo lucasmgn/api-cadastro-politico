@@ -362,7 +362,7 @@ paths:
         required: true
     put:
       summary: Desvincula Associado do partido
-      description: "Através desse endpoint você poderá desvincular um Associado."
+      description: "Através desse endpoint você poderá desvincular um Associado. O id passado é do Associado"
       tags:
         - Associado
       responses:
