@@ -156,6 +156,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RespostaNotFoundAtualizar"
+
+        409:
+          description: "Conflict"
+          content:
+            application/json:
+              example: {
+                "code": "ENTIDADE_EM_USO",
+                "message": "Entidade em uso",
+                "details": [
+                  "Partido de código 4 não pode ser removido, pois está em uso"
+                ]
+              }
         5XX:
           description: "Erro no servidor, tente mais tarde!"
   /partidos/{id}/associados:
