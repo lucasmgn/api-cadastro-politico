@@ -13,7 +13,7 @@
 
 <h3> Foram criadas duas classes para converter os Enums Ideologia e Cargo \src\main\java\br\com\sprint4\services</h3>
 
-<h4>Na pasta service se encontram os dtos de requisição e de resposta, também a pasta assembler, que contem classes relacionadas a serialização de objetos</h4>
+<h4>Na pasta service se encontram os dtos de requisição e de resposta, também a pasta assembler, que contem classes com metodos relacionadas a serialização de objetos utilizando o ModelMapper</h4>
 <h4>Também se encontram as classes de serviços</h4>
 
 ![Captura de Tela (130)](https://user-images.githubusercontent.com/81782608/204153529-21fbf85e-fd01-4e12-9473-73062eba96ef.png)
@@ -23,6 +23,14 @@
 <h3>Na pasta exceptions, coloquei todas a classes para tratamentos de erros, a subpasta handler contem a captura de erros e seus tratamentos</h3>
 
 ![Captura de Tela (132)](https://user-images.githubusercontent.com/81782608/204153899-60873d2d-76c2-4429-b84b-702914b0c1a2.png)
+
+<h3>Controller PartidoController</h3>
+
+![Captura de Tela (152)](https://user-images.githubusercontent.com/81782608/204155152-9546d824-0f12-400c-86b0-2d6acf0a7fd8.png)
+
+<h3>Controller AssociadoController</h3>
+
+![Captura de Tela (153)](https://user-images.githubusercontent.com/81782608/204155192-ab297d89-d234-4109-9d28-976cd04787e2.png)
 
 <h3>A aplicação utiliza o banco de dados Mysql e faz versionamento com a utilização do Flyway</h3>
 
