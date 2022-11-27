@@ -17,7 +17,7 @@ paths:
   /partidos:
     get:
       tags:
-        - API Partido
+        - Partido
       summary: Lista todos os Partidos
       description: "Através desse endpoint você poderá listar todos os Partidos. Existe filtros para o retorno da requisição, utilizando os Params. Ex: Filtrar por Ideologia - 'http://localhost:8080/partidos?Ideologia=e8squerda' (o valor da ideologia mesmo sendo um enum, pode ser colocado com letras minusculas). Ex: Ordenar por nome - 'http://localhost:8080/partidos?sort=nome,desc' (mudando desc para asc)."
       responses:
@@ -42,7 +42,7 @@ paths:
       summary: Cria um novo Partido
       description: "Através desse endpoint você poderá criar novos Partidos. Se algum campo obrigatório for violado, retornará 400 com uma mensagem informando o campo e o erro, se o parametrô estiver errado, retornará um 404"
       tags:
-        - API Partido
+        - Partido
       requestBody:
         content:
           application/json:
@@ -74,7 +74,6 @@ paths:
               }
         5XX:
           description: "Erro no servidor, tente mais tarde!"
-
   /partidos/{id}:
     parameters:
       - name: id
@@ -86,14 +85,14 @@ paths:
       summary: Lista os Partidos por id
       description: "Através desse endpoint você poderá consultar Partidos por id. Se não existir, retornará 404."
       tags:
-        - API Partido
+        - Partido
       responses:
         200:
           description: "OK"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PartidoId"
+                $ref: "#/components/schemas/PartidosId"
         400:
           description: Bad Request
           content:
@@ -112,12 +111,11 @@ paths:
               }
         5XX:
           description: "Erro no servidor, tente mais tarde!"
-
     put:
       summary: Autualiza Partido por id
       description: "Através desse endpoint você poderá atualizar um Partido. Se algum campo obrigatório for violado, retornará 400 com uma mensagem informando o campo e o erro, se o ID infromado não existir, retornará 404."
       tags:
-        - API Partido
+        - Partido
       requestBody:
         content:
           application/json:
@@ -148,7 +146,7 @@ paths:
       summary: Excluir Partido por id
       description: "Através desse endpoint você poderá excluir um Partido. Se o ID infromado não existir, retornará 404."
       tags:
-        - API Partido
+        - Partido
       responses:
         204:
           description: "No Content"
@@ -158,6 +156,256 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RespostaNotFoundAtualizar"
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+  /partidos/{id}/associados:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      summary: Lista todos associados do Partido
+      description: "Através desse endpoint você poderá listar todos os associados de um partido escolhido. EX: http://localhost:8080/partidos/2/associados"
+      tags:
+        - Partido
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadosSoComId"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "http://localhost:8080/partidos/a"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: {
+                "code": "PARTIDO_NAO_ENCONTRADO",
+                "message": "Partido não encontrado",
+                "details": [
+                  "PARTIDO_NAO_ENCONTRADO"
+                ]
+              }
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+  /associados:
+    get:
+      tags:
+        - Associado
+      summary: Lista todos os Associados
+      description: "Através desse endpoint você poderá listar todos os Associados. Existe filtros para o retorno da requisição, utilizando os Params. Ex: Filtrar por Cargo - 'http://localhost:8080/associados?Cargo=Prefeito' (o valor da cargo mesmo sendo um enum, pode ser colocado com letras minusculas). Ex: Ordenar por nome - 'http://localhost:8080/associados?sort=nome,desc' (mudando desc para asc)."
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoCompleto"
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespostaNotFoundParametroAssociados"
+
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+    post:
+      summary: Cria um novo Associado
+      description: "Através desse endpoint você poderá criar novos Associados. Se algum campo obrigatório for violado, retornará 400 com uma mensagem informando o campo e o erro, se o parametrô estiver errado, retornará um 404"
+      tags:
+        - Associado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Partido"
+      responses:
+        204:
+          description: "No Content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadosCompletoSemPartido"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespostaNotFoundParametroAssociados"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: {
+                "code": "BAD_REQUEST",
+                "message": "Requisição Inválida",
+                "details": [
+                  "nome : não deve estar em branco"
+                ]
+              }
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+  /associados/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+    get:
+      summary: Lista todos Associados
+      description: "Através desse endpoint você poderá listar todos os associados. EX: http://localhost:8080/associados"
+      tags:
+        - Associado
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadosCompleto"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "http://localhost:8080/associados/a"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: {
+                "code": "ASSOCIADO_NAO_ENCONTRADO",
+                "message": "Associado não encontrado",
+                "details": [
+                  "ASSOCIADO_NAO_ENCONTRADO"
+                ]
+              }
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+    put:
+      summary: Autualiza Associado por id
+      description: "Através desse endpoint você poderá atualizar um Associado. Se algum campo obrigatório for violado, retornará 400 com uma mensagem informando o campo e o erro, se o ID infromado não existir, retornará 404."
+      tags:
+        - Associado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssociadoSemId"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociadoCompleto"
+        404:
+          description: Partido não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespostaNotFoundParametroAssociados"
+        400:
+          description: "Bad Request"
+          content:
+            application/json:
+              example: {
+                "code": "BAD_REQUEST",
+                "message": "Requisição Inválida",
+                "details": [
+                  "nome : não deve estar em branco"
+                ]
+              }
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+    delete:
+      summary: Excluir Associado por id
+      description: "Através desse endpoint você poderá excluir um Associado. Se o ID infromado não existir, retornará 404."
+      tags:
+        - Associado
+      responses:
+        204:
+          description: "No Content"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              example: "http://localhost:8080/associados/a"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: {
+                "code": "ASSOCIADO_NAO_ENCONTRADO",
+                "message": "Associado não encontrado",
+                "details": [
+                  "ASSOCIADO_NAO_ENCONTRADO"
+                ]
+              }
+        5XX:
+          description: "Erro no servidor, tente mais tarde!"
+  /associados/desvincular/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: integer
+        required: true
+    put:
+      summary: Desvincula Associado do partido
+      description: "Através desse endpoint você poderá desvincular um Associado."
+      tags:
+        - Associado
+      responses:
+        204:
+          description: "No Content"
+        404:
+          description: Associado não encontrado
+          content:
+            application/json:
+              example:
+                {
+                  "code": "ASSOCIADO_NAO_ENCONTRADO",
+                  "message": "Associado não encontrado",
+                  "details": [
+                    "ASSOCIADO_NAO_ENCONTRADO"
+                  ]
+                }
+  /associados/partidos:
+    post:
+      summary: Vincular Associado a um Partido
+      description: "Através desse endpoint você poderá vincular Associados. Se algum campo obrigatório for violado, retornará 400 com uma mensagem informando o campo e o erro, se o parametrô estiver errado, retornará um 404"
+      tags:
+        - Associado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Associacao"
+      responses:
+        204:
+          description: "No Content"
+
+        404:
+          description: Not Found
+          content:
+            application/json:
+              example: {
+                "code": "ASSOCIADO_NAO_ENCONTRADO",
+                "message": "Associado não encontrado",
+                "details": [
+                  "ASSOCIADO_NAO_ENCONTRADO"
+                ]
+              }
         5XX:
           description: "Erro no servidor, tente mais tarde!"
 components:
@@ -201,6 +449,172 @@ components:
         fundacao:
           type: string
           example: 26-02-2002
+    PartidosId:
+      type: array
+      items:
+        $ref: "#/components/schemas/PartidoId"
+    AssociadoSemId:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Lucas Magno
+        cargo:
+          type: string
+          enum:
+            - Nenhum
+            - Vereador
+            - Prefeito
+            - Deputado Estadual
+            - Deputado Federal
+            - Senador
+            - Governador
+            - Presidente
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+        nascimento:
+          type: string
+          example: 26-02-2002
+    AssociadoSoComId:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Lucas Magno
+        cargo:
+          type: string
+          enum:
+            - Nenhum
+            - Vereador
+            - Prefeito
+            - Deputado Estadual
+            - Deputado Federal
+            - Senador
+            - Governador
+            - Presidente
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+        nascimento:
+          type: string
+          example: 26-02-2002
+    AssociadosSoComId:
+      type: array
+      items:
+        $ref: "#/components/schemas/AssociadoSoComId"
+    AssociadoCompleto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Lucas Magno
+        cargo:
+          type: string
+          enum:
+            - Nenhum
+            - Vereador
+            - Prefeito
+            - Deputado Estadual
+            - Deputado Federal
+            - Senador
+            - Governador
+            - Presidente
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+        nascimento:
+          type: string
+          example: 26-02-2002
+        partido:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            nome:
+              type: string
+              example: União Brasil
+            sigla:
+              type: string
+              example: UNIAO
+            ideologia:
+              type: string
+              enum:
+                - Direita
+                - Esquerda
+                - Centro
+            fundacao:
+              type: string
+              example: 26-02-2002
+    AssociadosCompleto:
+      type: array
+      items:
+        $ref: "#/components/schemas/AssociadoCompleto"
+    AssociadosCompletoSemPartido:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Lucas Magno
+        cargo:
+          type: string
+          enum:
+            - Nenhum
+            - Vereador
+            - Prefeito
+            - Deputado Estadual
+            - Deputado Federal
+            - Senador
+            - Governador
+            - Presidente
+        sexo:
+          type: string
+          enum:
+            - MASCULINO
+            - FEMININO
+        nascimento:
+          type: string
+          example: 26-02-2002
+        partido:
+          type: string
+          example:
+    Associacao:
+      type: object
+      properties:
+        associadoId:
+          type: integer
+          example: 6
+        partidoId:
+          type: integer
+          example: 7
+    RespostaBadRequestAtualizar:
+      type: object
+      properties:
+        code:
+          type: string
+          example: "BAD_REQUEST"
+        message:
+          type: string
+          example: "Requisição Inválida"
+        details:
+          type: string
+          example: "sigla : não deve estar em branco"
     RespostaNotFoundParametro:
       type: object
       properties:
@@ -216,18 +630,21 @@ components:
         path:
           type: string
           example: "/partidoss"
-    RespostaBadRequestAtualizar:
+    RespostaNotFoundParametroAssociados:
       type: object
       properties:
-        code:
+        timestamp:
           type: string
-          example: "BAD_REQUEST"
-        message:
+          example: "2022-11-26T21:46:35.576+00:00"
+        status:
+          type: number
+          example: 404
+        error:
           type: string
-          example: "Requisição Inválida"
-        details:
+          example: "Not Found"
+        path:
           type: string
-          example: "sigla : não deve estar em branco"
+          example: "/associadoss"
     RespostaNotFoundAtualizar:
       type: object
       properties:

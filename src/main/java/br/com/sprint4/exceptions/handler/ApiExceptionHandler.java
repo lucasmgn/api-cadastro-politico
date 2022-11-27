@@ -70,7 +70,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AssociadoNaoEncontradoException.class)
     public final ResponseEntity<Object> handleAssociadoNaoEncontradoException(AssociadoNaoEncontradoException ex) {
-        Problem exceptionResponse = new Problem(ErroCode.PARTIDO_NAO_ENCONTRADO, ex);
+        Problem exceptionResponse = new Problem(ErroCode.ASSOCIADO_NAO_ENCONTRADO, ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
 
