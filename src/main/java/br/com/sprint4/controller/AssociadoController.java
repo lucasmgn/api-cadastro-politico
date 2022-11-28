@@ -2,8 +2,6 @@ package br.com.sprint4.controller;
 
 import br.com.sprint4.entites.Associado;
 import br.com.sprint4.enums.Cargo;
-import br.com.sprint4.enums.Ideologia;
-import br.com.sprint4.repositories.AssociadoRepository;
 import br.com.sprint4.services.AssociadoService;
 import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
 import br.com.sprint4.services.assembler.AssociadoInputDisassembler;
@@ -28,8 +26,6 @@ public class AssociadoController {
     private final AssociadoDTOAssembler assembler;
 
     private final AssociadoInputDisassembler disassembler;
-
-    private final AssociadoRepository repository;
 
     @GetMapping(value = "/associados")
     public List<AssociadoRespostaDTO> listar(@RequestParam(required = false, name = "Cargo") Cargo cargo, Pageable pageable){

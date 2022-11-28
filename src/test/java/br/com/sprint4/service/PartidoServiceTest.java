@@ -2,7 +2,6 @@ package br.com.sprint4.service;
 
 import br.com.sprint4.entites.Partido;
 import br.com.sprint4.enums.Ideologia;
-import br.com.sprint4.repositories.PartidoRepository;
 import br.com.sprint4.services.PartidoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
