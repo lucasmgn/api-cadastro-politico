@@ -32,6 +32,22 @@
 
 ![Captura de Tela (154)](https://user-images.githubusercontent.com/81782608/204155276-de35d4ee-866b-45df-a139-e756287ce3f2.png)
 
+<h3>PartidoControllerTest</h3>
+
+![Captura de Tela (155)](https://user-images.githubusercontent.com/81782608/204195054-a3de1a9c-8d2a-498d-8096-984a51090565.png)
+
+<h3>PartidoServiceTest</h3>
+
+![Captura de Tela (156)](https://user-images.githubusercontent.com/81782608/204195320-a5d5ffe0-d8a1-41a8-8ea6-c373d0e1938c.png)
+
+<h3>AssociadoControllerTest</h3>
+
+![Captura de Tela (158)](https://user-images.githubusercontent.com/81782608/204194923-56abc8f7-b925-4e6e-b63c-1fe836577954.png)
+
+<h3>AssociadoServiceTest</h3>
+
+![Captura de Tela (157)](https://user-images.githubusercontent.com/81782608/204195207-6086adc6-9f71-42b4-ad93-606acd33c452.png)
+
 <h3>A aplicação utiliza o banco de dados Mysql e faz versionamento com a utilização do Flyway</h3>
 
 ![Captura de Tela (134)](https://user-images.githubusercontent.com/81782608/204154016-2b0bd40f-2e4e-48d0-a53d-234ff1121618.png)
