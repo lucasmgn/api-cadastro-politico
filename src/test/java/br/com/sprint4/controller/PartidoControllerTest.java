@@ -113,7 +113,6 @@ class PartidoControllerTest {
         MockHttpServletResponse resposta = result.getResponse();
         assertEquals(HttpStatus.OK.value(), resposta.getStatus());
     }
-
     @Test
     void removerResultadoNoContent() throws Exception {
         MvcResult result = mvc

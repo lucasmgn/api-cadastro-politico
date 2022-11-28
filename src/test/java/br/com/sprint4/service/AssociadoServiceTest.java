@@ -9,6 +9,7 @@ import br.com.sprint4.repositories.AssociadoRepository;
 import br.com.sprint4.services.AssociadoService;
 import br.com.sprint4.services.PartidoService;
 import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,8 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AssociadoServiceTest {
@@ -75,32 +75,55 @@ class AssociadoServiceTest {
         verify(repository).save(any());
     }
 
-//    @Test
-//    void deveVincularUmAssociado() {
-//        Associado associado1 = novoAssociado();
-//        Partido partido1 = novoPartido();
-//
-//        Associado associado2 = service.buscaOuFalha(associado1.getId());
-//
-//        when(partidoService.buscaOuFalha(any())).thenReturn(partido1);
-//
-//        associado2.setPartido(partido1);
-//
-//        service.vincular(associado.getId(), partido.getId());
-//        Mockito.verify(service, Mockito.times(1)).vincular(associado.getId(), partido.getId());
-//    }
+    @Test
+    void deveChamarOMetodoExcluir() {
+        Associado associado1 = novoAssociado();
 
-//    @Test
-//    void deveDesvincularUmAssociado() {
-//        service.desvincular(associado.getId());
-//        Mockito.verify(service, Mockito.times(1)).desvincular(associado.getId());
-//    }
+        service.excluir(ID);
 
-//    @Test
-//    void deveChamarOMetodoExcluir() {
-//        Associado associado1 = new Associado();
-//        Mockito.when(repository.findById(any())).thenReturn(Optional.of(associado1));
-//        Mockito.verify(repository).deleteById(any());
-//    }
+        verify(repository).deleteById(any());
+        verify(repository).flush();
+    }
+
+    @Test
+    void deveBuscarOuFalhar() {
+        Associado associado1 = novoAssociado();
+        when(repository.findById(any())).thenReturn(Optional.of(associado1));
+        Associado adicionar = service.buscaOuFalha(associado1.getId());
+        assertEquals(associado1, adicionar);
+        verify(repository).findById(any());
+    }
+
+    @Test
+    void deveVincularUmAssociado() {
+        Associado associado1 = novoAssociado();
+        Partido partido1 = novoPartido();
+
+        when(repository.findById(any())).thenReturn(Optional.of(associado1));
+        Associado associadoExiste = service.buscaOuFalha(associado1.getId());
+        when(partidoService.buscaOuFalha(any())).thenReturn(partido1);
+        associadoExiste.setPartido(partido1);
+
+        service.vincular(associado.getId(), partido.getId());
+        Assertions.assertEquals(associado1.getPartido().getId(), partido1.getId());
+    }
+
+    @Test
+    void deveDesvincularUmAssociado() {
+        Associado associado1 = novoAssociado();
+        Partido partido1 = novoPartido();
+
+        when(repository.findById(any())).thenReturn(Optional.of(associado1));
+
+        Associado associadoExiste = service.buscaOuFalha(associado1.getId());
+
+        when(repository.findById(any())).thenReturn(Optional.of(associado1));
+
+        associadoExiste.setPartido(partido1);
+
+        service.desvincular(associado.getId());
+
+        Assertions.assertNull(associado1.getPartido());
+    }
 
 }

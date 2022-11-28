@@ -85,7 +85,7 @@ class AssociadoControllerTest {
     void deveriaRetornarOkMetodoBuscar() throws Exception {
         AssociadoRespostaDTO associadoRespostaDTO = new AssociadoRespostaDTO();
 
-//        when(controller.buscar(any())).thenReturn(associadoRespostaDTO);
+
 
         MvcResult result = mvc
                 .perform(MockMvcRequestBuilders.get(ID_URL)
