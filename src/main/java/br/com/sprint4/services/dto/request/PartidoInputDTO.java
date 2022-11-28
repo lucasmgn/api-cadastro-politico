@@ -23,7 +23,6 @@ public class PartidoInputDTO {
     @NotNull
     private Ideologia ideologia;
 
-    @NotNull
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate fundacao;
 }

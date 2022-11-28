@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.OngoingStubbing;
 
@@ -48,30 +49,24 @@ public class PartidoServiceTest {
     }
 
     @Test
-    void testarFalhabuscarPartido() {
+    void testarFalhaBuscarPartido() {
         Partido response = service.buscaOuFalha(10000L);
         assertNull(response);
     }
 
     @Test
-    void testarExcluir() {
-//       when(service.excluir(partido.getId()));
-
-        Partido response = service.adicionar(partido);
-
-        assertEquals(response.getId(), partido.getId());
-
-
-    }
-
-
-    @Test
-    void testarAssociacao() {
+    void testandoSeRetornaOMesmoIdPartido() {
         when(service.adicionar(any(Partido.class))).thenReturn(partido);
 
         Partido response = service.adicionar(partido);
 
         assertEquals(response.getId(), partido.getId());
+    }
+
+    @Test
+    void deveChamarOMetodoExcluir() {
+        service.excluir(partido.getId());
+        Mockito.verify(service, Mockito.times(1)).excluir(partido.getId());
     }
 
 }
