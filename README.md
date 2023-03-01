@@ -1,4 +1,4 @@
-# cadastroPolitico
+# API CADASTRO POLITICO
 
 <h2> Informações</h2>
 <p>Na pasta resources estão os arquivos, applications.yml e dentro da pasta swagger tem o arquivo swagger.yaml.
