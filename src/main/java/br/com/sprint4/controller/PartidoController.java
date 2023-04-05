@@ -1,7 +1,5 @@
 package br.com.sprint4.controller;
 
-import br.com.sprint4.entites.Associado;
-import br.com.sprint4.entites.Partido;
 import br.com.sprint4.enums.Ideologia;
 import br.com.sprint4.repositories.AssociadoRepository;
 import br.com.sprint4.services.PartidoService;
@@ -9,12 +7,21 @@ import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
 import br.com.sprint4.services.assembler.PartidoDTOAssembler;
 import br.com.sprint4.services.assembler.PartidoInputDisassembler;
 import br.com.sprint4.services.dto.request.PartidoInputDTO;
-import br.com.sprint4.services.dto.responses.AssociadoResumoRespostaDTO;
-import br.com.sprint4.services.dto.responses.PartidoRespostaDTO;
+import br.com.sprint4.services.dto.responses.AssociadoResumoResponseDTO;
+import br.com.sprint4.services.dto.responses.PartidoResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,37 +42,34 @@ public class PartidoController {
     private final AssociadoRepository associadoRepository;
 
     @GetMapping(value = "/partidos")
-    public List<PartidoRespostaDTO> listar(@RequestParam(required = false, name = "Ideologia") Ideologia ideologia, Pageable pageable){
-        return service.verificacaoPartidoRespostaDTO(ideologia, pageable);
+    public List<PartidoResponseDTO> listar(@RequestParam(required = false, name = "Ideologia") Ideologia ideologia, Pageable pageable){
+        return service.verificacaoPartidoresponseDTO(ideologia, pageable);
     }
 
     @GetMapping(value = "/partidos/{partidoId}")
-    public PartidoRespostaDTO buscar(@PathVariable Long partidoId){
-
-        Partido partido = service.buscaOuFalha(partidoId);
-
+    public PartidoResponseDTO buscar(@PathVariable Long partidoId){
+        var partido = service.buscaOuFalha(partidoId);
         return assembler.toModel(partido);
     }
 
     //(Listar todos os associados daquele partido)
     @GetMapping(value = "/partidos/{partidoId}/associados")
-    public List<AssociadoResumoRespostaDTO> listar(@PathVariable Long partidoId){
-        service.buscaOuFalha(partidoId);
-        List<Associado> todosAssociados = associadoRepository.findAllByPartido_id(partidoId);
-        return associadoAssembler.toCollectionModelResposta(todosAssociados);
+    public List<AssociadoResumoResponseDTO> listar(@PathVariable Long partidoId){
+        var associados = service.listarAssociadosDeUmPartido(partidoId);
+        return associadoAssembler.toCollectionModelResponse(associados);
     }
 
     @PostMapping(value = "/partidos")
     @ResponseStatus(HttpStatus.CREATED)
-    public PartidoRespostaDTO adicionar(@RequestBody @Valid PartidoInputDTO partidoInputDTO) {
-        Partido partido = disassembler.toDomainObject(partidoInputDTO);
+    public PartidoResponseDTO adicionar(@RequestBody @Valid PartidoInputDTO partidoInputDTO) {
+        var partido = disassembler.toDomainObject(partidoInputDTO);
         partido = service.adicionar(partido);
         return assembler.toModel(partido);
     }
 
     @PutMapping(value = "/partidos/{partidoId}")
-    public PartidoRespostaDTO atualizar(@PathVariable Long partidoId, @RequestBody @Valid PartidoInputDTO partidoInputDTO){
-        Partido partidoAtual = service.buscaOuFalha(partidoId);
+    public PartidoResponseDTO atualizar(@PathVariable Long partidoId, @RequestBody @Valid PartidoInputDTO partidoInputDTO){
+        var partidoAtual = service.buscaOuFalha(partidoId);
         disassembler.copyToDomainObject(partidoInputDTO, partidoAtual);
         partidoAtual = service.adicionar(partidoAtual);
         return assembler.toModel(partidoAtual);

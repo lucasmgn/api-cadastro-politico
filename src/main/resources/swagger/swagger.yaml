@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundParametro"
+                $ref: "#/components/schemas/responseNotFoundParametro"
 
         5XX:
           description: "Erro no servidor, tente mais tarde!"
@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundParametro"
+                $ref: "#/components/schemas/responseNotFoundParametro"
         400:
           description: Bad Request
           content:
@@ -133,13 +133,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundAtualizar"
+                $ref: "#/components/schemas/responseNotFoundAtualizar"
         400:
           description: "Bad Request"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaBadRequestAtualizar"
+                $ref: "#/components/schemas/responseBadRequestAtualizar"
         5XX:
           description: "Erro no servidor, tente mais tarde!"
     delete:
@@ -155,7 +155,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundAtualizar"
+                $ref: "#/components/schemas/responseNotFoundAtualizar"
 
         409:
           description: "Conflict"
@@ -226,7 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundParametroAssociados"
+                $ref: "#/components/schemas/responseNotFoundParametroAssociados"
 
         5XX:
           description: "Erro no servidor, tente mais tarde!"
@@ -252,7 +252,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundParametroAssociados"
+                $ref: "#/components/schemas/responseNotFoundParametroAssociados"
         400:
           description: Bad Request
           content:
@@ -325,7 +325,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespostaNotFoundParametroAssociados"
+                $ref: "#/components/schemas/responseNotFoundParametroAssociados"
         400:
           description: "Bad Request"
           content:
@@ -615,7 +615,7 @@ components:
         partidoId:
           type: integer
           example: 7
-    RespostaBadRequestAtualizar:
+    responseBadRequestAtualizar:
       type: object
       properties:
         code:
@@ -627,7 +627,7 @@ components:
         details:
           type: string
           example: "sigla : não deve estar em branco"
-    RespostaNotFoundParametro:
+    responseNotFoundParametro:
       type: object
       properties:
         timestamp:
@@ -642,7 +642,7 @@ components:
         path:
           type: string
           example: "/partidoss"
-    RespostaNotFoundParametroAssociados:
+    responseNotFoundParametroAssociados:
       type: object
       properties:
         timestamp:
@@ -657,7 +657,7 @@ components:
         path:
           type: string
           example: "/associadoss"
-    RespostaNotFoundAtualizar:
+    responseNotFoundAtualizar:
       type: object
       properties:
         code:

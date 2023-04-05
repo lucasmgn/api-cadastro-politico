@@ -1,16 +1,16 @@
 package br.com.sprint4.services;
 
+import br.com.sprint4.entites.Associado;
 import br.com.sprint4.entites.Partido;
 import br.com.sprint4.enums.Ideologia;
 import br.com.sprint4.exceptions.EntidadeEmUsoException;
 import br.com.sprint4.exceptions.PartidoNaoEncontradoException;
 import br.com.sprint4.repositories.PartidoRepository;
 import br.com.sprint4.services.assembler.PartidoDTOAssembler;
-import br.com.sprint4.services.dto.responses.PartidoRespostaDTO;
+import br.com.sprint4.services.dto.responses.PartidoResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,8 @@ public class PartidoService {
     private final PartidoRepository repository;
 
     private final PartidoDTOAssembler assembler;
+
+    private final AssociadoService associadoService;
 
     private static final String MSG_PARTIDO_ESTA_EM_USO = "Partido de código %d não pode ser removido, pois está em uso";
 
@@ -51,13 +53,17 @@ public class PartidoService {
                 .orElseThrow(PartidoNaoEncontradoException::new);
     }
 
-    public List<PartidoRespostaDTO> verificacaoPartidoRespostaDTO(Ideologia ideologia, Pageable pageable) {
+    public List<Associado> listarAssociadosDeUmPartido(Long partidoId){
+        buscaOuFalha(partidoId);
+        return associadoService.listarAssociados(partidoId);
+    }
+
+    public List<PartidoResponseDTO> verificacaoPartidoresponseDTO(Ideologia ideologia, Pageable pageable) {
         if(ideologia == null){
-            Page<Partido> partidosPage = repository.findAll(pageable);
-            List<PartidoRespostaDTO> partidos = assembler.toCollectionModel(partidosPage.getContent());
-            return partidos;
+            var partidosPage = repository.findAll(pageable);
+            return assembler.toCollectionModel(partidosPage.getContent());
         }else{
-            List<Partido> partidos = repository.findAllByIdeologia(ideologia, pageable).getContent();
+            var partidos = repository.findAllByIdeologia(ideologia, pageable).getContent();
             return assembler.toCollectionModel(partidos);
         }
     }

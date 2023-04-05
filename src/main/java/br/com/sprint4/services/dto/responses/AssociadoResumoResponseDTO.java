@@ -1,25 +1,25 @@
 package br.com.sprint4.services.dto.responses;
 
-import br.com.sprint4.enums.Ideologia;
+import br.com.sprint4.enums.Cargo;
+import br.com.sprint4.enums.Sexo;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
-public class PartidoRespostaDTO {
+@Getter
+@Setter
+public class AssociadoResumoResponseDTO {
 
     private Long id;
 
     private String nome;
 
-    private String sigla;
+    private Cargo cargo;
 
-    private Ideologia ideologia;
+    private Sexo sexo;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate fundacao;
-
+    private LocalDate nascimento;
 }

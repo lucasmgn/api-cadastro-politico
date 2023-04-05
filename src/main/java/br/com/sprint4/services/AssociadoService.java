@@ -1,18 +1,15 @@
 package br.com.sprint4.services;
 
 import br.com.sprint4.entites.Associado;
-import br.com.sprint4.entites.Partido;
 import br.com.sprint4.enums.Cargo;
 import br.com.sprint4.exceptions.AssociadoNaoEncontradoException;
 import br.com.sprint4.exceptions.EntidadeEmUsoException;
 import br.com.sprint4.repositories.AssociadoRepository;
 import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
-import br.com.sprint4.services.dto.responses.AssociadoRespostaDTO;
-import br.com.sprint4.services.dto.responses.PartidoRespostaDTO;
+import br.com.sprint4.services.dto.responses.AssociadoResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -39,16 +36,15 @@ public class AssociadoService {
 
     @Transactional
     public void vincular(Long associadoId, Long partidoId) {
-        Associado associadoExiste = buscaOuFalha(associadoId);
-        Partido partidoExiste = service.buscaOuFalha(partidoId);
+        var associadoExiste = buscaOuFalha(associadoId);
+        var partidoExiste = service.buscaOuFalha(partidoId);
 
         associadoExiste.setPartido(partidoExiste);
     }
 
-    //desvinculando o associado do partido
     @Transactional
     public void desvincular(Long associadoId) {
-        Associado associadoExiste = buscaOuFalha(associadoId);
+        var associadoExiste = buscaOuFalha(associadoId);
 
         associadoExiste.setPartido(null);
     }
@@ -67,18 +63,21 @@ public class AssociadoService {
         }
     }
 
+    public List<Associado> listarAssociados(Long partidoId){
+        return repository.findAllByPartido_id(partidoId);
+    }
+
     public Associado buscaOuFalha(Long associadoId) {
         return repository.findById(associadoId)
                 .orElseThrow(AssociadoNaoEncontradoException::new);
     }
 
-    public List<AssociadoRespostaDTO> verificacaoAssociadoRespostaDTO(Cargo cargo, Pageable pageable) {
+    public List<AssociadoResponseDTO> verificacaoAssociadoresponseDTO(Cargo cargo, Pageable pageable) {
         if(cargo == null){
-            Page<Associado> associadosPage = repository.findAll(pageable);
-            List<AssociadoRespostaDTO> associados = assembler.toCollectionModel(associadosPage.getContent());
-            return associados;
+            var associadosPage = repository.findAll(pageable);
+            return assembler.toCollectionModel(associadosPage.getContent());
         }else{
-            List<Associado> associados = repository.findAllByCargo(cargo, pageable).getContent();
+            var associados = repository.findAllByCargo(cargo, pageable).getContent();
             return assembler.toCollectionModel(associados);
         }
     }

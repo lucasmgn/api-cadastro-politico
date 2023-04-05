@@ -9,186 +9,146 @@ import br.com.sprint4.services.AssociadoService;
 import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
 import br.com.sprint4.services.assembler.AssociadoInputDisassembler;
 import br.com.sprint4.services.dto.request.AssociadoInputDTO;
-import br.com.sprint4.services.dto.request.AssociadoVinculaInputDTO;
-import br.com.sprint4.services.dto.responses.AssociadoRespostaDTO;
-import br.com.sprint4.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static br.com.sprint4.utils.TestUtils.mapToJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = AssociadoController.class)
 class AssociadoControllerTest {
 
+    public static final String BASE_URL = "/associados";
+    public static final String URL_VINCULAR_ASSOCIADO = "/associados/partidos";
+    public static final String URL_DESVINCULAR_ASSOCIADO_ID = "/associados/desvincular/1";
+    public static final String ID_URL = BASE_URL + "/1";
     @Autowired
     private MockMvc mvc;
-
     @MockBean
     private AssociadoService service;
-
     @MockBean
     private AssociadoDTOAssembler assembler;
-
     @MockBean
     private AssociadoInputDisassembler disassembler;
     private Associado associado;
-
-
-    AssociadoControllerTest() {
-    }
+    private AssociadoInputDTO associadoInputDTO;
+    private Partido partido;
 
     @BeforeEach
-    void beforeEach() {
+    void setUp() {
+        partido = new Partido();
+        partido.setId(1L);
+        partido.setNome("Teste");
+        partido.setSigla("PM");
+        partido.setIdeologia(Ideologia.CENTRO);
+
         associado = new Associado();
         associado.setId(1L);
         associado.setNome("Teste");
         associado.setCargo(Cargo.NENHUM);
         associado.setSexo(Sexo.MASCULINO);
-        associado.setPartido(criarPartido());
+        associado.setPartido(partido);
+
+        associadoInputDTO = new AssociadoInputDTO();
+        associadoInputDTO.setNome("L");
+        associadoInputDTO.setSexo(Sexo.MASCULINO);
+        associadoInputDTO.setCargo(Cargo.NENHUM);
     }
-
-    public static final String BASE_URL = "/associados";
-
-    public static final String ID_URL = BASE_URL + "/1";
 
     @Test
     void deveriaRetornarOkMetodoListar() throws Exception {
-        List<AssociadoRespostaDTO> associadosRespostaDTO = new ArrayList<>();
-
-//        when(controller.listar(any(), any())).thenReturn(associadosRespostaDTO);
-
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.get(BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+
+        var response = result.getResponse();
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test
     void deveriaRetornarOkMetodoBuscar() throws Exception {
-        AssociadoRespostaDTO associadoRespostaDTO = new AssociadoRespostaDTO();
-
-
-
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.get(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+
+        var response = result.getResponse();
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test
     void deveriaRetornarCreatedMetodoAdicionar() throws Exception {
-        AssociadoInputDTO associadoInputDTO = criarAssociadoInputDTO();
-        AssociadoRespostaDTO associadoRespostaDTO = new AssociadoRespostaDTO();
-
-//        when(controller.adicionar(any())).thenReturn(associadoRespostaDTO);
-
-        String input = TestUtils.mapToJson(associadoInputDTO);
-
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.post(BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(input)
+                        .content(mapToJson(associadoInputDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        MockHttpServletResponse resposta = result.getResponse();
-
-        assertEquals(HttpStatus.CREATED.value(), resposta.getStatus());
+        var response = result.getResponse();
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
     @Test
     void deveriaRetornarOkMetodoAtualizar() throws Exception {
-        AssociadoInputDTO associadoInputDTO = criarAssociadoInputDTO();
-        AssociadoRespostaDTO associadoRespostaDTO = new AssociadoRespostaDTO();
-
-//        when(controller.atualizar(any(),any())).thenReturn(associadoRespostaDTO);
-
-        String input = TestUtils.mapToJson(associadoInputDTO);
-
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.put(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(input)
+                        .content(mapToJson(associadoInputDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        MockHttpServletResponse resposta = result.getResponse();
-
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+        var response = result.getResponse();
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
     @Test
     void deveriaRetornarNoContentMetodoRemover() throws Exception {
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.delete(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.NO_CONTENT.value(), resposta.getStatus());
+        
+        var response = result.getResponse();
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
-    void deveriaChamarMetodoRemover(){
-//        controller.remover(associado.getId());
-//        Mockito.verify(controller, Mockito.times(1)).remover(associado.getId());
+    void deveriaAdicionarAssociadoPartido() throws Exception {
+        var result = mvc
+                .perform(MockMvcRequestBuilders.post(URL_VINCULAR_ASSOCIADO)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(mapToJson(associadoInputDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        var response = result.getResponse();
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 
     @Test
-    void deveriaChamarAdicionarAssociadoAoPartido(){
-        AssociadoVinculaInputDTO associadoVinculaInputDTO = criaAssociadoVinculaDTO();
-//        controller.adicionarAssociadoPartido(associadoVinculaInputDTO);
-//        Mockito.verify(controller, Mockito.times(1)).adicionarAssociadoPartido(associadoVinculaInputDTO);
-    }
+    void deveriaDesvincularAssociadoPartido() throws Exception {
+        var input = mapToJson(associadoInputDTO);
 
-    @Test
-    void deveriaChamarDesvincularAssociadoPartido(){
-//        controller.desvincularAssociadoPartido(associado.getId());
-//        Mockito.verify(controller, Mockito.times(1)).desvincularAssociadoPartido(associado.getId());
-    }
-
-    private AssociadoInputDTO criarAssociadoInputDTO() {
-        AssociadoInputDTO associado = new AssociadoInputDTO();
-        associado.setNome("L");
-        associado.setSexo(Sexo.MASCULINO);
-        associado.setCargo(Cargo.NENHUM);
-        return associado;
-    }
-
-    private AssociadoVinculaInputDTO criaAssociadoVinculaDTO(){
-        AssociadoVinculaInputDTO associadoVinculaInputDTO = new AssociadoVinculaInputDTO();
-        associadoVinculaInputDTO.setAssociadoId(1L);
-        associadoVinculaInputDTO.setPartidoId(1L);
-        return  associadoVinculaInputDTO;
-    }
-
-    private Partido criarPartido(){
-        Partido partido = new Partido();
-        partido.setId(1L);
-        partido.setNome("Teste");
-        partido.setSigla("PM");
-        partido.setIdeologia(Ideologia.CENTRO);
-        return partido;
+        var result = mvc
+                .perform(MockMvcRequestBuilders.put(URL_DESVINCULAR_ASSOCIADO_ID)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(input)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        
+        var response = result.getResponse();
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 }

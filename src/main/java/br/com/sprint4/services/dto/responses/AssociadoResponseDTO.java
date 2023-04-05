@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class AssociadoRespostaDTO {
+public class AssociadoResponseDTO {
 
     private Long id;
 
@@ -23,5 +23,5 @@ public class AssociadoRespostaDTO {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate nascimento;
 
-    private PartidoRespostaDTO partido;
+    private PartidoResponseDTO partido;
 }

@@ -10,8 +10,6 @@ import br.com.sprint4.services.assembler.AssociadoDTOAssembler;
 import br.com.sprint4.services.assembler.PartidoDTOAssembler;
 import br.com.sprint4.services.assembler.PartidoInputDisassembler;
 import br.com.sprint4.services.dto.request.PartidoInputDTO;
-import br.com.sprint4.services.dto.responses.AssociadoResumoRespostaDTO;
-import br.com.sprint4.services.dto.responses.PartidoRespostaDTO;
 import br.com.sprint4.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,22 +19,23 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static br.com.sprint4.utils.TestUtils.mapToJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @WebMvcTest(controllers = PartidoController.class)
 @ContextConfiguration(classes = {PartidoController.class, AssociadoService.class})
 class PartidoControllerTest {
+
+    public static final String BASE_URL = "/partidos";
+    public static final String ID_URL = BASE_URL + "/1";
+    public static final String PARTIDOS_ID_ASSOCIADOS = ID_URL + "/associados";
 
     @Autowired
     private MockMvc mvc;
@@ -57,8 +56,8 @@ class PartidoControllerTest {
     private AssociadoRepository associadoRepository;
 
     private Partido partido;
-
     private Associado associado;
+    private PartidoInputDTO partidoInputDTO;
 
     @BeforeEach
     void beforeEach() {
@@ -67,118 +66,87 @@ class PartidoControllerTest {
         partido.setNome("Teste");
         partido.setSigla("PM");
         partido.setIdeologia(Ideologia.CENTRO);
+
+        partidoInputDTO = new PartidoInputDTO();
+        partidoInputDTO.setNome("Test");
+        partidoInputDTO.setIdeologia(Ideologia.CENTRO);
+        partidoInputDTO.setSigla("AS");
     }
-
-    public static final String BASE_URL = "/partidos";
-
-    public static final String BASE_URL_PARTIDOS_ASSOCIADOS = "/partidos/1";
-    public static final String ID_URL = BASE_URL + "/1";
 
     @Test
     void deveriaRetornarOkMetodoListar() throws Exception {
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.get(BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    void deveriaRetornarOkMetodoListarTodosAssociadosDeUmDeterminadoPartido() throws Exception {
+        var result = mvc
+                .perform(MockMvcRequestBuilders.get(PARTIDOS_ID_ASSOCIADOS)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
 
     @Test
     void deveriaRetornarOkMetodoBuscar() throws Exception {
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.get(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
 
     @Test
     void deveriaRetornarOkMetodoListarOsAssociadosPorPartido() throws Exception {
-        List<Associado> associados = new ArrayList<>();
-        List<AssociadoResumoRespostaDTO> associadosResumo = new ArrayList<>();
-
-        when(service.buscaOuFalha(any())).thenReturn(partido);
-        when(associadoRepository.findAllByPartido_id(any())).thenReturn(associados);
-        when(associadoAssembler.toCollectionModelResposta(any())).thenReturn(associadosResumo);
-
-        MvcResult result = mvc
-                .perform(MockMvcRequestBuilders.get(BASE_URL_PARTIDOS_ASSOCIADOS)
+        var result = mvc
+                .perform(MockMvcRequestBuilders.get(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
     @Test
     void removerResultadoNoContent() throws Exception {
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.delete(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-        MockHttpServletResponse resposta = result.getResponse();
-        assertEquals(HttpStatus.NO_CONTENT.value(), resposta.getStatus());
+        assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
     }
 
     @Test
     void adicionar() throws Exception {
-        PartidoInputDTO partidoInputDTO = criarPartidoInput();
-        PartidoRespostaDTO partidoRespostaDTO = new PartidoRespostaDTO();
-
-        when(disassembler.toDomainObject(any())).thenReturn(partido);
-        when(service.adicionar((any()))).thenReturn(partido);
-        when(assembler.toModel(any())).thenReturn(partidoRespostaDTO);
-
-        String input = TestUtils.mapToJson(partidoInputDTO);
-
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.post(BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(input)
+                        .content(mapToJson(partidoInputDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-
-        MockHttpServletResponse resposta = result.getResponse();
-
-        assertEquals(HttpStatus.CREATED.value(), resposta.getStatus());
+        assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
     }
 
     @Test
     void atualizar() throws Exception {
-        PartidoInputDTO partidoInputDTO = criarPartidoInput();
-        PartidoRespostaDTO partidoRespostaDTO = new PartidoRespostaDTO();
-
-        String input = TestUtils.mapToJson(partidoInputDTO);
-
-        MvcResult result = mvc
+        var result = mvc
                 .perform(MockMvcRequestBuilders.put(ID_URL)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(input)
+                        .content(mapToJson(partidoInputDTO))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
-
-        MockHttpServletResponse resposta = result.getResponse();
-
-        assertEquals(HttpStatus.OK.value(), resposta.getStatus());
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
 
     @Test
     void remover(){
        service.excluir(partido.getId());
-        Mockito.verify(service, Mockito.times(1)).excluir(partido.getId());
-    }
-
-
-
-    private PartidoInputDTO criarPartidoInput(){
-        PartidoInputDTO partido = new PartidoInputDTO();
-        partido.setNome("Test");
-        partido.setIdeologia(Ideologia.CENTRO);
-        partido.setSigla("AS");
-        return partido;
+       verify(service, times(1)).excluir(partido.getId());
     }
 }

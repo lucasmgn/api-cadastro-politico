@@ -13,7 +13,7 @@
 
 <h3> Foram criadas duas classes para converter os Enums Ideologia e Cargo \src\main\java\br\com\sprint4\services</h3>
 
-<h4>Na pasta service se encontram os dtos de requisição e de resposta, também a pasta assembler, que contem classes com metodos relacionadas a serialização de objetos utilizando o ModelMapper</h4>
+<h4>Na pasta service se encontram os dtos de requisição e de response, também a pasta assembler, que contem classes com metodos relacionadas a serialização de objetos utilizando o ModelMapper</h4>
 <h4>Também se encontram as classes de serviços</h4>
 
 ![Captura de Tela (130)](https://user-images.githubusercontent.com/81782608/204153529-21fbf85e-fd01-4e12-9473-73062eba96ef.png)
