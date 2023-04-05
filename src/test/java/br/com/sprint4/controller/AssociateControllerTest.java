@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @WebMvcTest(controllers = AssociateController.class)
 class AssociateControllerTest {
-
     public static final String BASE_URL = "/associates";
     public static final String URL_VINCULAR_associate = "/associates/parties";
     public static final String URL_DESVINCULAR_associate_ID = "/associates/unbind/1";
@@ -32,7 +31,7 @@ class AssociateControllerTest {
     private AssociateDTOAssembler assembler;
     @MockBean
     private AssociateInputDisassembler disassembler;
-    private AssociateInputDTO associateInputDTO = getAssociateInputWithOutPartyMock();
+    private final AssociateInputDTO associateInputDTO = getAssociateInputWithOutPartyMock();
 
     @Test
     void should_returnOkMethodFindAll() throws Exception {

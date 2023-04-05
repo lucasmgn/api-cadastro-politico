@@ -18,12 +18,10 @@ class AssociateInputDisassemblerTest {
 
     @InjectMocks
     private AssociateInputDisassembler disassembler;
-
     @Spy
     private ModelMapper mapper;
-
-    private AssociateInputDTO associateInputMock = getAssociateInputWithOutPartyMock();
-    private Associate associateMock = getAssociateWithOutPartyMock();
+    private final AssociateInputDTO associateInputMock = getAssociateInputWithOutPartyMock();
+    private final Associate associateMock = getAssociateWithOutPartyMock();
 
     @Test
     void toDomainObject_Success() {

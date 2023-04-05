@@ -52,15 +52,12 @@ class AssociateServiceTest {
     @Mock
     private AssociateDTOAssembler assembler;
 
-    private Associate associateWithParty = getAssociateWithPartyMock();
-
-    private Associate associateWithOutParty = getAssociateWithOutPartyMock();
-
-    private Party party = getPartyMock();
-
-    private List<Associate> associates = List.of(associateWithParty);
-    private PageImpl<Associate> associatePage = new PageImpl<>(associates);
-    private AssociateResponseDTO associateResponseDTO = new AssociateResponseDTO();
+    private final Associate associateWithParty = getAssociateWithPartyMock();
+    private final Associate associateWithOutParty = getAssociateWithOutPartyMock();
+    private final Party party = getPartyMock();
+    private final List<Associate> associates = List.of(associateWithParty);
+    private final PageImpl<Associate> associatePage = new PageImpl<>(associates);
+    private final AssociateResponseDTO associateResponseDTO = new AssociateResponseDTO();
 
     @Test
     void should_saveAssociateSuccess() {
@@ -72,7 +69,7 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_callDeleteByIdMethodSuccess() {
+    void should_callDeleteByIdMethod_Success() {
         service.remove(ID);
         verify(repository).deleteById(any());
         verify(repository).flush();
@@ -92,7 +89,7 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_returnAllMembersOfAPartySuccess() {
+    void should_returnAllMembersOfAParty_Success() {
         when(repository.findAllByPartyId(any())).thenReturn(List.of(associateWithParty));
         var associates = service.findAllAssociatesOf(ID);
 
@@ -100,7 +97,7 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_FetchOrFailSuccess() {
+    void should_fetchOrFail_Success() {
         when(repository.findById(any())).thenReturn(Optional.of(associateWithParty));
         var associate = service.fetchOrFail(associateWithParty.getId());
 
@@ -108,7 +105,7 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_LinkAnAssociateSuccess() {
+    void should_linkAnAssociate_Success() {
         when(repository.findById(any())).thenReturn(Optional.of(associateWithOutParty));
         var associate = service.fetchOrFail(associateWithOutParty.getId());
 
@@ -121,7 +118,7 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_unbindAssociateOfParty() {
+    void should_unbindAssociateOfParty_Success() {
         when(repository.findById(any())).thenReturn(Optional.of(associateWithParty));
         service.unbind(associateWithParty.getId());
 
@@ -129,7 +126,8 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_callFindAllMethodWhenOfficeIsNull() {
+    @SuppressWarnings({"all"})
+    void should_callFindAllMethod_WhenOfficeIsNull() {
         when(repository.findAll(any(Pageable.class))).thenReturn(associatePage);
         when(assembler.toCollectionModel(associates)).thenReturn(List.of(associateResponseDTO));
 
@@ -137,9 +135,11 @@ class AssociateServiceTest {
     }
 
     @Test
-    void should_callFindAllByOfficeMethodWhenOfficeIsNotNull() {
+    @SuppressWarnings({"all"})
+    void should_callFindAllByOfficeMethod_WhenOfficeNotNull() {
         when(repository.findAllByOffice(any(), any(Pageable.class))).thenReturn(associatePage);
         when(assembler.toCollectionModel(associates)).thenReturn(List.of(associateResponseDTO));
+
         service.associateResponseDTOVerification(Office.GOVERNOR, pageable);
     }
 }

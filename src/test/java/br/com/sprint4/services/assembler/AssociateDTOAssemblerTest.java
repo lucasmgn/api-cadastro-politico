@@ -22,7 +22,7 @@ class AssociateDTOAssemblerTest {
     @Spy
     private ModelMapper mapper;
 
-    private Associate associate = getAssociateWithOutPartyMock();
+    private final Associate associate = getAssociateWithOutPartyMock();
 
     @Test
     void toModel_Success() {

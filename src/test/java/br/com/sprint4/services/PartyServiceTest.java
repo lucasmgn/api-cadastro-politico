@@ -50,26 +50,32 @@ public class PartyServiceTest {
     @Mock
     private PartyDTOAssembler assembler;
 
-    private Associate associateComParty = getAssociateWithPartyMock();
+    private final Associate associateComParty = getAssociateWithPartyMock();
 
-    private Party party = getPartyMock();
+    private final Party party = getPartyMock();
+
+    private final List<Party> parties = List.of(party);
+
+    private final PageImpl<Party> partiesPage = new PageImpl<>(parties);
+
+    private final PartyResponseDTO partyResponseDTO = new PartyResponseDTO();
 
     @Test
-    void deveSalvarUmParty() {
+    void should_savePartySuccess() {
         when(repository.save(any())).thenReturn(party);
-        var adicionar = service.create(party);
+        var partyCreated = service.create(party);
 
-        assertEquals(party, adicionar);
+        assertEquals(party, partyCreated);
     }
     @Test
-    void testarBuscaOuFalhaParty() {
+    void should_fetchOrFail_Success() {
         when(repository.findById(any())).thenReturn(Optional.of(party));
         var response = service.fetchOrFail(ID);
 
         assertEquals(party, response);
     }
     @Test
-    void deveChamarOMetodoExcluir_Sucess() {
+    void should_callDeleteByIdMethod_Success() {
         service.remove(ID);
         verify(repository).deleteById(any());
         verify(repository).flush();
@@ -77,19 +83,19 @@ public class PartyServiceTest {
 
     @Test
     @SuppressWarnings({"all"})
-    void deveChamarOMetodoExcluir_PartyNaoEncontradoException() {
+    void should_throwPartyNotFoundException() {
         doThrow(new EmptyResultDataAccessException(1)).when(repository).deleteById(null);
         assertThrows(PartyNotFoundException.class, () -> service.remove(null));
     }
 
     @Test
-    void deveChamarOMetodoExcluir_EntidadeEmUsoException() {
+    void should_throwEntityInUseException() {
         doThrow(new DataIntegrityViolationException("")).when(repository).deleteById(ID);
         assertThrows(EntityInUseException.class, () -> service.remove(ID));
     }
 
     @Test
-    void listarassociatesDeUmParty_Sucess() {
+    void should_returnListOfAssociatesOfAParty_Success() {
         when(repository.findById(any())).thenReturn(Optional.of(party));
         when(associateService.findAllAssociatesOf(party.getId())).thenReturn(List.of(associateComParty));
         var associates = service.findAllAssociatesOf(1L);
@@ -98,25 +104,20 @@ public class PartyServiceTest {
     }
 
     @Test
-    void verificacaoPartyresponseDTOIdeologyNull(){
-        var partys = List.of(party);
-        var partysPage = new PageImpl<>(partys);
-        var partyResponseDTO = new PartyResponseDTO();
+    @SuppressWarnings({"all"})
+    void should_callTheFindAllMethod_WhenTheIdeologyIsNull(){
+        when(repository.findAll(any(Pageable.class))).thenReturn(partiesPage);
+        when(assembler.toCollectionModel(parties)).thenReturn(List.of(partyResponseDTO));
 
-        when(repository.findAll(any(Pageable.class))).thenReturn(partysPage);
-        when(assembler.toCollectionModel(partys)).thenReturn(List.of(partyResponseDTO));
         service.partyResponseDTOVerification(null, pageable);
         verify(repository).findAll(any(Pageable.class));
     }
 
     @Test
-    void verificacaoPartyresponseDTOIdeologyNotNull(){
-        var partys = List.of(party);
-        var partysPage = new PageImpl<>(partys);
-        var partyResponseDTO = new PartyResponseDTO();
-
-        when(repository.findAllByIdeology(any(),any(Pageable.class))).thenReturn(partysPage);
-        when(assembler.toCollectionModel(partys)).thenReturn(List.of(partyResponseDTO));
+    @SuppressWarnings({"all"})
+    void should_callTheFindAllByIdeologyMethod_WhenTheIdeologyNotNull(){
+        when(repository.findAllByIdeology(any(),any(Pageable.class))).thenReturn(partiesPage);
+        when(assembler.toCollectionModel(parties)).thenReturn(List.of(partyResponseDTO));
 
         service.partyResponseDTOVerification(Ideology.CENTER, pageable);
     }

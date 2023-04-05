@@ -44,7 +44,7 @@ class PartyControllerTest {
     @MockBean
     private AssociateRepository associateRepository;
 
-    private PartyInputDTO partyInputDTO = getPartyInputMock();
+    private final PartyInputDTO partyInputDTO = getPartyInputMock();
 
     @Test
     void should_returnOkMethodFindAll() throws Exception {
