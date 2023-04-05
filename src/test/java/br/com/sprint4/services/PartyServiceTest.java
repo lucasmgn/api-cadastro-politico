@@ -1,4 +1,4 @@
-package br.com.sprint4.services.assembler;
+package br.com.sprint4.services;
 
 import br.com.sprint4.dto.responses.PartyResponseDTO;
 import br.com.sprint4.entity.Associate;
@@ -7,8 +7,7 @@ import br.com.sprint4.enums.Ideology;
 import br.com.sprint4.exceptions.EntityInUseException;
 import br.com.sprint4.exceptions.PartyNotFoundException;
 import br.com.sprint4.repositories.PartyRepository;
-import br.com.sprint4.services.AssociateService;
-import br.com.sprint4.services.PartyServiceImpl;
+import br.com.sprint4.services.assembler.PartyDTOAssembler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

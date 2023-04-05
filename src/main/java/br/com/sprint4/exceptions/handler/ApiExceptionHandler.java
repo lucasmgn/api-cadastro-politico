@@ -76,10 +76,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleEntityInUse(EntityInUseException e, WebRequest request){
 
         var status = HttpStatus.CONFLICT;
-        var tipoProblema = ErrorCode.ENTITY_IN_USE;
+        var typeError = ErrorCode.ENTITY_IN_USE;
         var detail = e.getMessage();
 
-        var problem = new Problem(tipoProblema,detail);
+        var problem = new Problem(typeError,detail);
 
         return handleExceptionInternal(e, problem, new HttpHeaders(),status, request);
     }

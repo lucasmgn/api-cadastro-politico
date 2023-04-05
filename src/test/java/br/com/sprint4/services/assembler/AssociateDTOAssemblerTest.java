@@ -25,26 +25,26 @@ class AssociateDTOAssemblerTest {
     private Associate associate = getAssociateWithOutPartyMock();
 
     @Test
-    void toModel_Sucess() {
+    void toModel_Success() {
         var associateResponseDTO = assembler.toModel(associate);
         assertEquals(associate.getName(), associateResponseDTO.getName());
     }
 
     @Test
-    void toModelresponse_Sucess() {
-        var associateResumoResponseDTO = assembler.toModelResponse(associate);
-        assertEquals(associate.getName(), associateResumoResponseDTO.getName());
+    void toModelResponse_Success() {
+        var associateResumeResponseDTO = assembler.toModelResponse(associate);
+        assertEquals(associate.getName(), associateResumeResponseDTO.getName());
     }
 
     @Test
-    void toCollectionModel_Sucess() {
+    void toCollectionModel_Success() {
         var associates = List.of(associate);
         var associateResponseDTOS = assembler.toCollectionModel(associates);
         assertEquals(associates.get(0).getName(), associateResponseDTOS.get(0).getName());
     }
 
     @Test
-    void toCollectionModelresponse_Sucess() {
+    void toCollectionModelResponse_Success() {
         var associates = List.of(associate);
         var associateResponseDTOS = assembler.toCollectionModelResponse(associates);
         assertEquals(associates.get(0).getName(), associateResponseDTOS.get(0).getName());

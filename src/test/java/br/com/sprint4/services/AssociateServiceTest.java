@@ -1,15 +1,13 @@
-package br.com.sprint4.services.assembler;
+package br.com.sprint4.services;
 
+import br.com.sprint4.dto.responses.AssociateResponseDTO;
 import br.com.sprint4.entity.Associate;
 import br.com.sprint4.entity.Party;
 import br.com.sprint4.enums.Office;
 import br.com.sprint4.exceptions.AssociateNotFoundException;
 import br.com.sprint4.exceptions.EntityInUseException;
 import br.com.sprint4.repositories.AssociateRepository;
-import br.com.sprint4.services.AssociateService;
-import br.com.sprint4.services.AssociateServiceImpl;
-import br.com.sprint4.services.PartyService;
-import br.com.sprint4.dto.responses.AssociateResponseDTO;
+import br.com.sprint4.services.assembler.AssociateDTOAssembler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
