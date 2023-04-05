@@ -49,7 +49,6 @@ public class PartyController {
         return assembler.toModel(party);
     }
 
-    //(Listar todos os associates daquele Party)
     @GetMapping(value = "/parties/{partyId}/associates")
         public List<AssociateResumeResponseDTO> findAllAssociates(@PathVariable Long partyId){
         var associates = service.findAllAssociatesOf(partyId);

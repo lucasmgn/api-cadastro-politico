@@ -12,7 +12,7 @@
 	<artifactId>cadastroPolitico</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cadastroPolitico</name>
-	<description>API desenvolvida para cadastro de Partys políticos e seus associates. </description>
+	<description>API desenvolvida para praticar. </description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -34,16 +34,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>com.h2database</groupId>-->
-<!--			<artifactId>h2</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>org.flywaydb</groupId>-->
-<!--			<artifactId>flyway-core</artifactId>-->
-<!--		</dependency>-->
-		<!-- Corrigindo o erro de Unsupported Database: MySQL 8.0 -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>

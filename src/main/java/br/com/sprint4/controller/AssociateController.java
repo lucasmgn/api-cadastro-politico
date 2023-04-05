@@ -62,7 +62,7 @@ public class AssociateController {
 
     @PutMapping(value = "/associates/{associateId}")
     public AssociateResponseDTO update(@PathVariable Long associateId,
-    @RequestBody @Valid AssociateInputDTO associateInputDTO){
+            @RequestBody @Valid AssociateInputDTO associateInputDTO){
 
         var associateAtual = service.fetchOrFail(associateId);
         disassembler.copyToDomainObject(associateInputDTO, associateAtual);
