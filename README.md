@@ -24,27 +24,27 @@
 
 ![Captura de Tela (132)](https://user-images.githubusercontent.com/81782608/204153899-60873d2d-76c2-4429-b84b-702914b0c1a2.png)
 
-<h3>Controller PartidoController</h3>
+<h3>Controller PartyController</h3>
 
 ![Captura de Tela (152)](https://user-images.githubusercontent.com/81782608/204155152-9546d824-0f12-400c-86b0-2d6acf0a7fd8.png)
 
-<h3>Controller AssociadoController</h3>
+<h3>Controller associateController</h3>
 
 ![Captura de Tela (154)](https://user-images.githubusercontent.com/81782608/204155276-de35d4ee-866b-45df-a139-e756287ce3f2.png)
 
-<h3>PartidoControllerTest</h3>
+<h3>PartyControllerTest</h3>
 
 ![Captura de Tela (155)](https://user-images.githubusercontent.com/81782608/204195054-a3de1a9c-8d2a-498d-8096-984a51090565.png)
 
-<h3>PartidoServiceTest</h3>
+<h3>PartyServiceTest</h3>
 
 ![Captura de Tela (156)](https://user-images.githubusercontent.com/81782608/204195320-a5d5ffe0-d8a1-41a8-8ea6-c373d0e1938c.png)
 
-<h3>AssociadoControllerTest</h3>
+<h3>associateControllerTest</h3>
 
 ![Captura de Tela (158)](https://user-images.githubusercontent.com/81782608/204194923-56abc8f7-b925-4e6e-b63c-1fe836577954.png)
 
-<h3>AssociadoServiceTest</h3>
+<h3>associateServiceTest</h3>
 
 ![Captura de Tela (157)](https://user-images.githubusercontent.com/81782608/204195207-6086adc6-9f71-42b4-ad93-606acd33c452.png)
 
@@ -58,60 +58,60 @@
 
 <h3>Postman</h3>
 
-<h4>Partido - Listar</h4>
+<h4>Party - Listar</h4>
 
 ![Captura de Tela (137)](https://user-images.githubusercontent.com/81782608/204154189-f1309048-58a1-44da-8664-b1088ea88221.png)
 
-<h4>Partido - Buscar</h4>
+<h4>Party - Buscar</h4>
 
 ![Captura de Tela (138)](https://user-images.githubusercontent.com/81782608/204154231-1678bb2d-b3dc-419f-996f-5e5921d44533.png)
 
-<h4>Partido - Listar Associados de Partido</h4>
+<h4>Party - Listar associates de Party</h4>
 
 ![Captura de Tela (139)](https://user-images.githubusercontent.com/81782608/204154282-34b4575c-eb01-420e-a50d-25a9521d63d1.png)
 
-<h4>Partido - Adicionar</h4>
+<h4>Party - Adicionar</h4>
 
 ![Captura de Tela (140)](https://user-images.githubusercontent.com/81782608/204154356-a1e301dc-d348-449e-823b-1798d73331b6.png)
 
-<h4>Partido - Atualizar</h4>
+<h4>Party - Atualizar</h4>
 
 ![Captura de Tela (141)](https://user-images.githubusercontent.com/81782608/204154376-77c18643-89c9-4e14-a8d3-11b61e8c0754.png)
 
-<h4>Partido - Excluir</h4>
-<h5>Se um associado estiver no partido que você deseja excluir, será retornado um Conflict</h5>
+<h4>Party - Excluir</h4>
+<h5>Se um associate estiver no Party que você deseja excluir, será retornado um Conflict</h5>
   
 ![Captura de Tela (142)](https://user-images.githubusercontent.com/81782608/204154399-8efe2416-4269-419b-8e7c-c5b3482b1bb6.png)
 
 ![Captura de Tela (150)](https://user-images.githubusercontent.com/81782608/204154895-0ac35a01-f769-4b86-9a36-ea0344c7917e.png)
 
-<h4>Associado - Listar</h4>
+<h4>associate - Listar</h4>
 
 ![Captura de Tela (143)](https://user-images.githubusercontent.com/81782608/204154488-b2ecaed4-43d7-489e-9dbf-474b8831b7cf.png)
 
-<h4>Associado - Buscar</h4>
+<h4>associate - Buscar</h4>
 
 ![Captura de Tela (144)](https://user-images.githubusercontent.com/81782608/204154534-8bfc2a1e-8634-4d03-a1c3-90bda41ee13f.png)
 
-<h4>Associado - Adicionar</h4>
+<h4>associate - Adicionar</h4>
 
 ![Captura de Tela (145)](https://user-images.githubusercontent.com/81782608/204154566-038e41f9-127d-4c85-93bf-9e44561c666a.png)
 
-<h4>Associado - Vincular a um partido</h4>
-<h5> Será retornado no content, mas se você listar novamente, verá o Associado vinculado ao partido</h5>
+<h4>associate - Vincular a um Party</h4>
+<h5> Será retornado no content, mas se você listar novamente, verá o associate vinculado ao Party</h5>
 
 ![Captura de Tela (146)](https://user-images.githubusercontent.com/81782608/204154589-ac5988f1-053a-43b0-bf09-c0dad4e57d4b.png)
 
-<h4>Associado - Desvincular a um partido</h4>
-<h5> Será retornado no content, mas se você listar novamente, verá o Associado desvinculado ao partido</h5>
+<h4>associate - Desvincular a um Party</h4>
+<h5> Será retornado no content, mas se você listar novamente, verá o associate desvinculado ao Party</h5>
 
 ![Captura de Tela (147)](https://user-images.githubusercontent.com/81782608/204154723-de6cfcf6-554b-4f5a-82cc-896788256095.png)
 
-<h4>Associado - Atualizar</h4>
+<h4>associate - Atualizar</h4>
 
 ![Captura de Tela (148)](https://user-images.githubusercontent.com/81782608/204154765-9c4aa0bf-b389-4da2-b485-2ed903a38ec1.png)
 
-<h4>Associado - Excluir</h4>
+<h4>associate - Excluir</h4>
 
 ![Captura de Tela (149)](https://user-images.githubusercontent.com/81782608/204154827-7eb6bc43-a257-48f4-97c7-6710da8877c6.png)
 

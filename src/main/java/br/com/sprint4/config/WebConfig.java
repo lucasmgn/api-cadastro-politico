@@ -1,7 +1,7 @@
 package br.com.sprint4.config;
 
-import br.com.sprint4.services.StringEnumConverteCargo;
-import br.com.sprint4.services.StringEnumConverteIdeologia;
+import br.com.sprint4.services.convert.StringEnumConvertIdeology;
+import br.com.sprint4.services.convert.StringEnumConvertOffice;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new StringEnumConverteIdeologia());
-        registry.addConverter(new StringEnumConverteCargo());
+        registry.addConverter(new StringEnumConvertIdeology());
+        registry.addConverter(new StringEnumConvertOffice());
     }
 }
