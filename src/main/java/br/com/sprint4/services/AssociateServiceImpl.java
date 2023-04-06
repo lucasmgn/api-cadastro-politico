@@ -4,8 +4,10 @@ import br.com.sprint4.entity.Associate;
 import br.com.sprint4.enums.Office;
 import br.com.sprint4.exceptions.AssociateNotFoundException;
 import br.com.sprint4.exceptions.EntityInUseException;
-import br.com.sprint4.repositories.AssociateRepository;
+import br.com.sprint4.exceptions.PartyNotFoundException;
 import br.com.sprint4.dto.responses.AssociateResponseDTO;
+import br.com.sprint4.repositories.AssociateRepository;
+import br.com.sprint4.repositories.PartyRepository;
 import br.com.sprint4.services.assembler.AssociateDTOAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,43 +18,40 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class AssociateServiceImpl implements AssociateService{
-
-    private final PartyService service;
-
     private static final String MSG_ASSOCIATE_IN_USE = "associate code %d cannot be removed as it is in use";
-
+    private final PartyRepository partyRepository;
+    private final AssociateDTOAssembler assembler;
     private final AssociateRepository repository;
 
-    private final AssociateDTOAssembler assembler;
-
-    @Override
     @Transactional
+    @Override
     public Associate create(Associate associate) {
         return repository.save(associate);
     }
 
-    @Override
     @Transactional
+    @Override
     public void bind(Long associateId, Long partyId) {
         var associateReturn = fetchOrFail(associateId);
-        var partyReturn = service.fetchOrFail(partyId);
+        var partyReturn = partyRepository.findById(partyId)
+                .orElseThrow(PartyNotFoundException::new);
 
         associateReturn.setParty(partyReturn);
     }
 
-    @Override
     @Transactional
+    @Override
     public void unbind(Long associateId) {
         var associateReturn = fetchOrFail(associateId);
-
         associateReturn.setParty(null);
     }
 
-    @Override
     @Transactional
+    @Override
     public void remove(Long associateId) {
         try {
             repository.deleteById(associateId);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface AssociateRepository extends JpaRepository<Associate, Long> {
     List<Associate> findAllByPartyId(Long id);
