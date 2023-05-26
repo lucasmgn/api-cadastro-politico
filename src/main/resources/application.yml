@@ -5,10 +5,9 @@ logging:
         SQL: DEBUG
 spring:
   datasource:
-    url: jdbc:sqlserver://states.database.windows.net:1433;database=db-states;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    url: jdbc:sqlserver://states.database.windows.net:1433;database=db-states_2023-05-26T17-38Z;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     username: adm-user
     password: Lucas123
-
   jpa:
     properties:
       hibernate:
