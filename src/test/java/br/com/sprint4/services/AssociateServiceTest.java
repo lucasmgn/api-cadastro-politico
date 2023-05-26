@@ -8,6 +8,7 @@ import br.com.sprint4.exceptions.AssociateNotFoundException;
 import br.com.sprint4.exceptions.EntityInUseException;
 import br.com.sprint4.repositories.AssociateRepository;
 import br.com.sprint4.services.assembler.AssociateDTOAssembler;
+import br.com.sprint4.repositories.PartyRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 @ExtendWith(MockitoExtension.class)
 class AssociateServiceTest {
 
@@ -41,7 +43,7 @@ class AssociateServiceTest {
     private AssociateServiceImpl service;
 
     @Mock
-    private PartyService partyService;
+    private PartyRepository partyRepository;
 
     @Mock
     private AssociateRepository repository;
@@ -109,10 +111,9 @@ class AssociateServiceTest {
         when(repository.findById(any())).thenReturn(Optional.of(associateWithOutParty));
         var associate = service.fetchOrFail(associateWithOutParty.getId());
 
-        when(partyService.fetchOrFail(any())).thenReturn(party);
+        when(partyRepository.findById(any())).thenReturn(Optional.of(party));
         associate.setParty(party);
 
-        System.out.println(associateWithOutParty);
         service.bind(associateWithOutParty.getId(), this.party.getId());
         assertEquals(associateWithOutParty.getParty().getId(), party.getId());
     }

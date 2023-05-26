@@ -11,8 +11,12 @@ import java.util.List;
 public interface PartyService {
 
     Party create(Party party);
+
     void remove(Long partyId);
+
     Party fetchOrFail(Long partyId);
+
     List<Associate> findAllAssociatesOf(Long partyId);
+
     List<PartyResponseDTO> partyResponseDTOVerification(Ideology ideology, Pageable pageable);
 }

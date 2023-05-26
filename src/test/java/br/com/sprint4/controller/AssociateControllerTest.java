@@ -1,6 +1,6 @@
 package br.com.sprint4.controller;
 
-import br.com.sprint4.services.AssociateService;
+import br.com.sprint4.services.AssociateServiceImpl;
 import br.com.sprint4.services.assembler.AssociateDTOAssembler;
 import br.com.sprint4.services.assembler.AssociateInputDisassembler;
 import br.com.sprint4.dto.request.AssociateInputDTO;
@@ -26,7 +26,7 @@ class AssociateControllerTest {
     @Autowired
     private MockMvc mvc;
     @MockBean
-    private AssociateService service;
+    private AssociateServiceImpl service;
     @MockBean
     private AssociateDTOAssembler assembler;
     @MockBean

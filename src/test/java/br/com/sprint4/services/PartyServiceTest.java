@@ -6,6 +6,7 @@ import br.com.sprint4.entity.Party;
 import br.com.sprint4.enums.Ideology;
 import br.com.sprint4.exceptions.EntityInUseException;
 import br.com.sprint4.exceptions.PartyNotFoundException;
+import br.com.sprint4.repositories.AssociateRepository;
 import br.com.sprint4.repositories.PartyRepository;
 import br.com.sprint4.services.assembler.PartyDTOAssembler;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PartyServiceTest {
+class PartyServiceTest {
 
     public static final Long ID = 1L;
 
@@ -39,7 +40,7 @@ public class PartyServiceTest {
     private PartyServiceImpl service;
 
     @Mock
-    private AssociateService associateService;
+    private AssociateRepository associateRepository;
 
     @Mock
     private PartyRepository repository;
@@ -97,7 +98,7 @@ public class PartyServiceTest {
     @Test
     void should_returnListOfAssociatesOfAParty_Success() {
         when(repository.findById(any())).thenReturn(Optional.of(party));
-        when(associateService.findAllAssociatesOf(party.getId())).thenReturn(List.of(associateComParty));
+        when(associateRepository.findAllByPartyId(party.getId())).thenReturn(List.of(associateComParty));
         var associates = service.findAllAssociatesOf(1L);
 
         assertEquals(List.of(associateComParty), associates);

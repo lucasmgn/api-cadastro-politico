@@ -46,6 +46,6 @@ public class Party {
     @Column(name = "FOUNDATION")
     private LocalDate foundation;
 
-    @OneToMany(mappedBy = "ASSOCIATES")
+    @OneToMany(mappedBy = "party")
     private List<Associate> associates;
 }

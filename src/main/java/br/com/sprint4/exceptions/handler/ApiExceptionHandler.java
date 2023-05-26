@@ -58,7 +58,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var exceptionResponse = new Problem(ErrorCode.BAD_REQUEST, ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
-    
 
     @ExceptionHandler(PartyNotFoundException.class)
     public final ResponseEntity<Object> handlePartyNotFound(PartyNotFoundException ex) {

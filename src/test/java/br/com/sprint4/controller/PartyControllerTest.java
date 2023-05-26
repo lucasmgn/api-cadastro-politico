@@ -1,7 +1,7 @@
 package br.com.sprint4.controller;
 
 import br.com.sprint4.repositories.AssociateRepository;
-import br.com.sprint4.services.PartyService;
+import br.com.sprint4.services.PartyServiceImpl;
 import br.com.sprint4.services.assembler.AssociateDTOAssembler;
 import br.com.sprint4.services.assembler.PartyDTOAssembler;
 import br.com.sprint4.services.assembler.PartyInputDisassembler;
@@ -30,7 +30,7 @@ class PartyControllerTest {
     private MockMvc mvc;
 
     @MockBean
-    private PartyService service;
+    private PartyServiceImpl service;
 
     @MockBean
     private PartyDTOAssembler assembler;

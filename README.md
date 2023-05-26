@@ -1,89 +1,259 @@
 # API CADASTRO POLITICO
 
 <h2> Informações</h2>
-<p>Na pasta resources estão os arquivos, applications.yml e dentro da pasta swagger tem o arquivo swagger.yaml.
-  
-<h3>Eu habilitei o cors do Spring, para poder fazer testes da requisição via Swagger</h3>
 
-![Captura de Tela (126)](https://user-images.githubusercontent.com/81782608/204153254-349a73af-50c4-4795-b41f-056786303fe4.png)
+<h3>Tecnologias utilizadas:</h3>
+<ul>
+  <li><strong>Spring Boot</strong></li>
+  <li><strong>MySql</strong></li>
+  <li><strong>Flyway</strong></li>
+</ul>
 
-<h3> Na classe WebConfig, foi habilitado o Cors e addFormatters para formatar Enuns que serão utilizados para filtros</h3>
+<h3>Party - Listar</h3>
 
-![Captura de Tela (128)](https://user-images.githubusercontent.com/81782608/204153366-188be648-98b2-47ca-9e80-e28512613b8c.png)
+````text
+curl --location 'http://localhost:8080/parties
+````
 
-<h3> Foram criadas duas classes para converter os Enums Ideologia e Cargo \src\main\java\br\com\sprint4\services</h3>
+<p>Filtrando por Ideology: </p>
 
-<h4>Na pasta service se encontram os dtos de requisição e de response, também a pasta assembler, que contem classes com metodos relacionadas a serialização de objetos utilizando o ModelMapper</h4>
-<h4>Também se encontram as classes de serviços</h4>
+````text
+curl --location 'http://localhost:8080/parties?Ideology=left'
+````
 
-![Captura de Tela (130)](https://user-images.githubusercontent.com/81782608/204153529-21fbf85e-fd01-4e12-9473-73062eba96ef.png)
+<p>Filtrando por name desc/asc:</p>
 
-![Captura de Tela (131)](https://user-images.githubusercontent.com/81782608/204153759-8ee3b180-3270-4e76-b5f3-48b075aed977.png)
+````text
+curl --location 'http://localhost:8080/parties?sort=name%2Cdesc'
+````
+<p>Retorno de Sucesso:</p>
 
-<h3>Na pasta exceptions, coloquei todas a classes para tratamentos de erros, a subpasta handler contem a captura de erros e seus tratamentos</h3>
+````json
+[
+  {
+    "id": 1,
+    "name": "Party da Social Democracia Brasileira",
+    "acronym": "PSDB",
+    "ideology": "Center",
+    "foundation": "25-06-1988"
+  },
+  {
+    "id": 2,
+    "name": "Progressistas",
+    "acronym": "PP",
+    "ideology": "Right",
+    "foundation": "14-05-1995"
+  }
+]
+````
 
-![Captura de Tela (132)](https://user-images.githubusercontent.com/81782608/204153899-60873d2d-76c2-4429-b84b-702914b0c1a2.png)
+<p>Possíveis Retorno de Erro:</p>
 
-<h3>Controller PartyController</h3>
+````json
+{
+  "timestamp": "2023-04-06T00:13:49.043+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/partiess"
+}
+````
 
-![Captura de Tela (152)](https://user-images.githubusercontent.com/81782608/204155152-9546d824-0f12-400c-86b0-2d6acf0a7fd8.png)
+<h3>Party - Buscar</h3>
 
-<h3>Controller associateController</h3>
+````text
+curl --location 'http://localhost:8080/parties/4'
+````
 
-![Captura de Tela (154)](https://user-images.githubusercontent.com/81782608/204155276-de35d4ee-866b-45df-a139-e756287ce3f2.png)
+<p>Retorno de Sucesso:</p>
 
-<h3>PartyControllerTest</h3>
+````json
+{
+  "id": 4,
+  "name": "Novo",
+  "acronym": "NOVO",
+  "ideology": "Right",
+  "foundation": "12-02-2011"
+}
+````
 
-![Captura de Tela (155)](https://user-images.githubusercontent.com/81782608/204195054-a3de1a9c-8d2a-498d-8096-984a51090565.png)
+<p>Possíveis Retorno de Erro:</p>
 
-<h3>PartyServiceTest</h3>
+````json
+{
+  "code": "PARTY_NOT_FOUND",
+  "message": "Party not found",
+  "details": [
+    "PARTY_NOT_FOUND"
+  ]
+}
+````
 
-![Captura de Tela (156)](https://user-images.githubusercontent.com/81782608/204195320-a5d5ffe0-d8a1-41a8-8ea6-c373d0e1938c.png)
+<h3>Party - Listar associates de Party</h3>
 
-<h3>associateControllerTest</h3>
+````text
+curl --location 'http://localhost:8080/parties/4/associates'
+````
+<p>Retorno de Sucesso:</p>
 
-![Captura de Tela (158)](https://user-images.githubusercontent.com/81782608/204194923-56abc8f7-b925-4e6e-b63c-1fe836577954.png)
+````json
+[
+  {
+    "id": 4,
+    "name": "Thai Spinello",
+    "office": "Alderman",
+    "sex": "FEMALE",
+    "birth": "12-07-1989"
+  }
+]
+````
 
-<h3>associateServiceTest</h3>
+<p>Possíveis Retorno de Erro:</p>
 
-![Captura de Tela (157)](https://user-images.githubusercontent.com/81782608/204195207-6086adc6-9f71-42b4-ad93-606acd33c452.png)
+````json
+{
+  "code": "PARTY_NOT_FOUND",
+  "message": "Party not found",
+  "details": [
+    "PARTY_NOT_FOUND"
+  ]
+}
+````
+````json
+{
+  "timestamp": "2023-04-06T00:24:57.750+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/parties/4/associatess"
+}
+````
+<h3>Party - Adicionar</h3>
 
-<h3>A aplicação utiliza o banco de dados Mysql e faz versionamento com a utilização do Flyway</h3>
+````text
+curl --location 'http://localhost:8080/parties' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "União Brasil",
+    "acronym": "UNIAO",
+    "ideology": "Right",
+    "foundation": "26-02-2002"
+}'
+````
+<p>Retorno de Sucesso:</p>
 
-![Captura de Tela (134)](https://user-images.githubusercontent.com/81782608/204154016-2b0bd40f-2e4e-48d0-a53d-234ff1121618.png)
+````json
+{
+  "id": 6,
+  "name": "União Brasil",
+  "acronym": "UNIAO",
+  "ideology": "Right",
+  "foundation": "26-02-2002"
+}
+````
 
-<h4>O arquivo application.yml</h4>
+<p>Possíveis Retorno de Erro:</p>
 
-![Captura de Tela (136)](https://user-images.githubusercontent.com/81782608/204154068-98ae5c64-66ae-42b8-831b-d5be7e0367e4.png)
+````json
+{
+  "code": "BAD_REQUEST",
+  "message": "Invalid Request",
+  "details": [
+    "[acronym : não deve estar em branco]"
+  ]
+}
+````
+````json
+{
+  "timestamp": "2023-04-06T00:32:41.292+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/partiesw"
+}
+````
 
-<h3>Postman</h3>
+<h3>Party - Atualizar</h3>
 
-<h4>Party - Listar</h4>
+````text
+curl --location --request PUT 'http://localhost:8080/parties/1' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "Partaido da Social Democracia Brasileira",
+    "acronym": "PSDB",
+    "ideology": "Right",
+    "foundation": "26-02-2002"
+}'
+````
+<p>Retorno de Sucesso:</p>
 
-![Captura de Tela (137)](https://user-images.githubusercontent.com/81782608/204154189-f1309048-58a1-44da-8664-b1088ea88221.png)
+````json
+{
+  "id": 1,
+  "name": "Partaido da Social Democracia Brasileira",
+  "acronym": "PSDB",
+  "ideology": "Right",
+  "foundation": "26-02-2002"
+}
+````
 
-<h4>Party - Buscar</h4>
+<p>Possíveis Retorno de Erro:</p>
 
-![Captura de Tela (138)](https://user-images.githubusercontent.com/81782608/204154231-1678bb2d-b3dc-419f-996f-5e5921d44533.png)
+````json
+{
+  "code": "BAD_REQUEST",
+  "message": "Invalid Request",
+  "details": [
+    "[acronym : não deve estar em branco]"
+  ]
+}
+````
+````json
+{
+  "timestamp": "2023-04-06T00:32:41.292+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/partiesw/1"
+}
+````
 
-<h4>Party - Listar associates de Party</h4>
+<h3>Party - Excluir</h3>
 
-![Captura de Tela (139)](https://user-images.githubusercontent.com/81782608/204154282-34b4575c-eb01-420e-a50d-25a9521d63d1.png)
+````text
+curl --location --request DELETE 'http://localhost:8080/parties/6' \
+--data ''
+````
+<p>Retorno de Sucesso:</p>
 
-<h4>Party - Adicionar</h4>
+````text
+204 - No Content
+````
 
-![Captura de Tela (140)](https://user-images.githubusercontent.com/81782608/204154356-a1e301dc-d348-449e-823b-1798d73331b6.png)
+<p>Possíveis Retorno de Erro:</p>
 
-<h4>Party - Atualizar</h4>
-
-![Captura de Tela (141)](https://user-images.githubusercontent.com/81782608/204154376-77c18643-89c9-4e14-a8d3-11b61e8c0754.png)
-
-<h4>Party - Excluir</h4>
-<h5>Se um associate estiver no Party que você deseja excluir, será retornado um Conflict</h5>
-  
-![Captura de Tela (142)](https://user-images.githubusercontent.com/81782608/204154399-8efe2416-4269-419b-8e7c-c5b3482b1bb6.png)
-
-![Captura de Tela (150)](https://user-images.githubusercontent.com/81782608/204154895-0ac35a01-f769-4b86-9a36-ea0344c7917e.png)
+````json
+{
+  "code": "ENTITY_IN_USE",
+  "message": "Entity in Use",
+  "details": [
+    "Party code 4 cannot be removed as it is in use"
+  ]
+}
+````
+````json
+{
+  "code": "PARTY_NOT_FOUND",
+  "message": "Party not found",
+  "details": [
+    "PARTY_NOT_FOUND"
+  ]
+}
+````
+````json
+{
+  "timestamp": "2023-04-06T00:32:41.292+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/partiesw/1"
+}
+````
 
 <h4>associate - Listar</h4>
 
