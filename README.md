@@ -2,6 +2,10 @@
 
 <h2> Informações</h2>
 
+````text
+Atualizando para banco de dados na Azure, SQL SERVER
+````
+
 <h3>Tecnologias utilizadas:</h3>
 <ul>
   <li><strong>Spring Boot</strong></li>
